@@ -1,0 +1,49 @@
+version: "3.8"
+# versi script docker compose
+
+# membuat network dengan nama "app-network"
+networks:
+  app-network:
+    name: app-network
+    driver: bridge
+
+#  membuat volume nama "app-db"
+volumes:
+  app-db:
+    name: app-db
+
+# membuat service
+services:
+  # Service 1 : item-db sesuai konfigurasi
+  item-db:
+    image: mongo:3
+    restart: always
+    networks:
+      - app-network
+    # Memakai volume bernama app-db dengan target "/data/db" di container
+    volumes:
+      - "app-db:/data/db"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  # Service 2 : item-app sesuai konfigurasi
+  item-app:
+    # image yang digunakan dari docker hub / gchr
+    image: ghcr.io/tobialbertino/item-app:v1
+    # network yang digunakan
+    networks:
+      - app-network
+    # set working directory
+    working_dir: "/app"
+    # restart policy, akan di restart ketika app gagal dijalankan
+    restart: always
+    # port mapping agar dapat diakses dari port 80 di host
+    ports:
+      - "80:8080"
+    # dijalankan setelah item-db diluncurkan.
+    depends_on:
+      - item-db
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=item-db
