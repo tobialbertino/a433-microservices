@@ -7,7 +7,7 @@ docker build -t karsajobs-fe:v1 .
 # Mengubah nama image agar sesuai dengan format Docker Hub (atau GitHub Packages bila menerapkan saran keempat).
 
 # docker image tag item-app:v1 tobialbertino/item-app:v1
-docker image tag item-app:v1 ghcr.io/tobialbertino/karsajobs-fe:v1
+docker image tag karsajobs-fe:v1 ghcr.io/tobialbertino/karsajobs-fe:v1
 
 # Login ke Docker Hub (atau GitHub Packages bila menerapkan saran keempat) via Terminal. 
 export PASSWORD_DOCKER_HUB=token
