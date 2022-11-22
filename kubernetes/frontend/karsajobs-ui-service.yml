@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: karsajobs-ns # using namespace
+  name: karsajobs-ui # service name
+  labels:
+    app: karsajobs-ui
+spec:
+  type: NodePort # using node port
+  selector:
+    app: karsajobs-ui
+  ports:
+    - port: 8000 # select port app
+      targetPort: 8000
