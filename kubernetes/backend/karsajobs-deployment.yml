@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: # metadata resources to identify and label
+  namespace: karsajobs-ns # using namespace
+  name: karsajobs # metadata app name
+  labels:
+    app: karsajobs 
+spec:
+  replicas: 2
+  selector:
+    matchLabels: 
+      app: karsajobs  # using label app
+  template:
+    metadata:
+      namespace: karsajobs-ns
+      labels:
+        app: karsajobs  # using label app
+    spec:
+      containers:
+        - name: karsajobs-be  # name container for backend
+          image: ghcr.io/tobialbertino/karsajobs-be:v1 # get image from gchr
+          ports:
+            - containerPort: 8080 # expose or set container port 8080
+          env:  # add env according to configuration app BE (golang)
+            - name: APP_PORT
+              value: "8080"
+            - name: MONGO_HOST
+              value: "mongo"
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-credentials
+                  key: MONGO_ROOT_USERNAME
+            - name: MONGO_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-credentials
+                  key: MONGO_ROOT_PASSWORD

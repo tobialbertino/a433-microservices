@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: # metadata resources
+  namespace: karsajobs-ns # using namespace
+  name: karsajobs-ui # metadata app name
+  labels:
+    app: karsajobs-ui
+spec:
+  replicas: 2
+  selector:
+    matchLabels: 
+      app: karsajobs-ui
+  template:
+    metadata:
+      namespace: karsajobs-ns
+      labels:
+        app: karsajobs-ui # label app name
+    spec:
+      containers:
+        - name: karsajobs-fe
+          image: ghcr.io/tobialbertino/karsajobs-fe:v1 # get image from gchr
+          ports:
+            - containerPort: 8000 # expose or set container port 8000
