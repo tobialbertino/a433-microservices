@@ -25,6 +25,7 @@ spec:
           ports:
             - containerPort: 27017
               name: mongo
+          # set env with MONGO_INITDB_ROOT_USERNAME and MONGO_INITDB_ROOT_PASSWORD from image monngo
           env:
             - name: MONGO_INITDB_ROOT_USERNAME_FILE
               value: /etc/mongo-credentials/MONGO_ROOT_USERNAME
